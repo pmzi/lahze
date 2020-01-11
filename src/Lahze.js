@@ -38,8 +38,8 @@ Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this.date, locale: locale || this.locale });
 
   format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
-  format = format.replace(DATE_FORMATS.FULL_MONTH, parsed.M);
-  format = format.replace(DATE_FORMATS.FULL_DAY, parsed.D);
+  format = format.replace(DATE_FORMATS.FULL_MONTH, garantee2Digits(parsed.M));
+  format = format.replace(DATE_FORMATS.FULL_DAY, garantee2Digits(parsed.D));
   format = format.replace(DATE_FORMATS.FULL_HOUR, garantee2Digits(this.date.getHours()));
   format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this.date.getMinutes()));
   format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this.date.getSeconds()));
