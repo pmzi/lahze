@@ -18,7 +18,8 @@
   "unpkg": "dist/lahze.umd.js",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "microbundle": "^0.11.0"
