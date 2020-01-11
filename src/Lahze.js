@@ -13,8 +13,9 @@ export default function Lahze(time, format, locale) {
         this.date = new Date(time);
       }
     }
+  }else{
+    this.date = new Date();
   }
-  this.date = time && locale === 'fa' ? transformFromFormat(time, format, locale) : new Date();
 }
 
 Lahze.prototype.format = function(format, locale) {
@@ -31,16 +32,28 @@ Lahze.prototype.format = function(format, locale) {
 }
 
 function parse({ date, locale }){
-  const localeDate = locale === 'fa' ? date.toLocaleDateString(locale) : date.toLocaleDateString(locale).split('/').reverse().join('/');
+  const localeDate = date.toLocaleDateString(locale);
+  let output;
+  let parsed;
 
-  const output = /(\d{4})\/(\d{1,2})\/(\d{1,2})/.exec(
-    convertNumber(localeDate)
-  );
-
-  const parsed = {
-    Y: output[1],
-    M: output[2],
-    D: output[3],
+  if(locale === 'fa'){
+    output = /(\d{4})\/(\d{1,2})\/(\d{1,2})/.exec(
+      convertNumber(localeDate)
+    );
+    parsed = {
+      Y: output[1],
+      M: output[2],
+      D: output[3],
+    }
+  }else {
+    output = /(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(
+      convertNumber(localeDate)
+    );
+    parsed = {
+      Y: output[3],
+      M: output[1],
+      D: output[2],
+    }
   };
 
   return parsed;
@@ -69,23 +82,23 @@ function convertNumber(input){
 function transformFromFormat(time, format, locale){
   const result = fromFromat(time, format, locale);
 
-  return new Date(result.year, result.month, result.day);
+  return new Date(result.year, result.month - 1, result.day);
 }
 
 function fromFromat(time, format, locale){
   const year = {
-    string: ['yyyy'],
-    regexp: ['\\d{4}'],
+    string: [/(YYYY)/, /(?<!Y)YY(?!Y)/],
+    regexp: ['\\d{4}', '\\d{2}'],
     property: 'year',
   };
   const month = {
-    string: ['MM'],
-    regexp: ['\\d{2}'],
+    string: [/(MM)/, /(?<!M)M(?!M)/],
+    regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'month',
   }
   const day = {
-    string: ['DD'],
-    regexp: ['\\d{2}'],
+    string: [/(DD)/, /(?<!D)D(?!D)/],
+    regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'day',
   };
 
@@ -95,7 +108,7 @@ function fromFromat(time, format, locale){
 
   dates.forEach(({ string, regexp, property })=>{
     for(let i = 0;i<string.length;i++){
-      if(format.includes(string[i])){
+      if(string[i].test(format)){
         const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\]/g, '.').replace('P', `(${regexp[i]})`);
         result[property] = new RegExp(tempTime).exec(time)[1];
       }
