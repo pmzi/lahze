@@ -14,6 +14,6 @@ lahze('1398/10/10', 'YYYY/MM/DD', 'fa').format('YYYY/MM/DD', 'en'); // 2019/12/3
 import lahze from 'lahze';
 
 const l = lahze('1398/10/10', 'YYYY/MM/DD', 'fa');
-l.setMonth(l.date.getMonth() + 1);
+l.date.setMonth(l.date.getMonth() + 1);
 l.format('YYYY/MM/DD', 'en'); // 2020/01/31
 ```
