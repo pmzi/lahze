@@ -1,4 +1,20 @@
-import toGregorian from './toGregorian';
+import toGregorian from './utils/toGregorian';
+import garantee2Digits from './utils/garantee2Digits';
+
+const DATE_FORMATS = {
+  FULL_YEAR: /YYYY/,
+  SHORT_YEAR: /(?<!Y)YY(?!Y)/,
+  FULL_MONTH: /MM/,
+  SHORT_MONTH: /(?<!M)M(?!M)/,
+  FULL_DAY: /DD/,
+  SHORT_DAY: /(?<!D)D(?!D)/,
+  FULL_HOUR: /HH/,
+  SHORT_HOUR: /(?<!H)H(?!H)/,
+  FULL_MINUTES: /mm/,
+  SHORT_MINUTES: /(?<!m)m(?!m)/,
+  FULL_SECONDS: /ss/,
+  SHORT_SECONDS: /(?<!s)s(?!s)/,
+}
 
 export default function Lahze(time, format, locale) {
   this.locale = locale;
@@ -21,12 +37,19 @@ export default function Lahze(time, format, locale) {
 Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this.date, locale: locale || this.locale });
 
-  format = format.replace('YYYY', parsed.Y);
-  format = format.replace('MM', parsed.M);
-  format = format.replace('DD', parsed.D);
-  format = format.replace('HH', this.date.getHours());
-  format = format.replace('mm', this.date.getMinutes());
-  format = format.replace('ss', this.date.getSeconds());
+  format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
+  format = format.replace(DATE_FORMATS.FULL_MONTH, parsed.M);
+  format = format.replace(DATE_FORMATS.FULL_DAY, parsed.D);
+  format = format.replace(DATE_FORMATS.FULL_HOUR, garantee2Digits(this.date.getHours()));
+  format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this.date.getMinutes()));
+  format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this.date.getSeconds()));
+
+  format = format.replace(DATE_FORMATS.SHORT_YEAR, parsed.Y.substr(2));
+  format = format.replace(DATE_FORMATS.SHORT_MONTH, parsed.M);
+  format = format.replace(DATE_FORMATS.SHORT_DAY, parsed.D);
+  format = format.replace(DATE_FORMATS.SHORT_HOUR, this.date.getHours());
+  format = format.replace(DATE_FORMATS.SHORT_MINUTES, this.date.getMinutes());
+  format = format.replace(DATE_FORMATS.SHORT_SECONDS, this.date.getSeconds());
 
   return format;
 }
@@ -87,17 +110,17 @@ function transformFromFormat(time, format, locale){
 
 function fromFromat(time, format, locale){
   const year = {
-    string: [/(YYYY)/, /(?<!Y)YY(?!Y)/],
+    string: [DATE_FORMATS.FULL_YEAR, DATE_FORMATS.SHORT_YEAR],
     regexp: ['\\d{4}', '\\d{2}'],
     property: 'year',
   };
   const month = {
-    string: [/(MM)/, /(?<!M)M(?!M)/],
+    string: [DATE_FORMATS.FULL_MONTH, DATE_FORMATS.SHORT_MONTH],
     regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'month',
   }
   const day = {
-    string: [/(DD)/, /(?<!D)D(?!D)/],
+    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
     regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'day',
   };
