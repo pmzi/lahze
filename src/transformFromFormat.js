@@ -18,24 +18,31 @@ export default function transformFromFormat(time, format, locale){
     property: 'day',
   };
   const hour = {
-    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    string: [DATE_FORMATS.FULL_HOUR, DATE_FORMATS.SHORT_HOUR],
     regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'hour',
   };
   const minutes = {
-    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    string: [DATE_FORMATS.FULL_MINUTES, DATE_FORMATS.SHORT_MINUTES],
     regexp: ['\\d{2}', '\\d{1,2}'],
-    property: 'day',
+    property: 'minutes',
   };
   const seconds = {
-    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    string: [DATE_FORMATS.FULL_SECONDS, DATE_FORMATS.SHORT_SECONDS],
     regexp: ['\\d{2}', '\\d{1,2}'],
-    property: 'day',
+    property: 'seconds',
   };
 
-  const dates = [year, month, day];
+  const dates = [year, month, day, hour, minutes, seconds];
 
-  const result = {};
+  const result = {
+    year: 0,
+    month: 0,
+    day: 0,
+    hour: 0,
+    minutes: 0,
+    seconds: 0,
+  };
 
   dates.forEach(({ string, regexp, property })=>{
     for(let i = 0;i<string.length;i++){

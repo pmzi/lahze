@@ -8,8 +8,8 @@ export default function Lahze(time, format, locale) {
 
   if(time){
     if(format){
-      const { year, month, day } = transformFromFormat(time, format, locale);
-      this._date = new Date(year, month - 1, day);
+      const { year, month, day, hour, minutes, seconds } = transformFromFormat(time, format, locale);
+      this._date = new Date(year, month - 1, day, hour, minutes, seconds);
     }else {
       if(time instanceof Date){
         this._date = time;
@@ -22,9 +22,11 @@ export default function Lahze(time, format, locale) {
   }
 }
 
-Lahze.prototype.date = function() {
-  return this._date;
-}
+Object.defineProperty(Lahze.prototype, 'date', {
+  get(){
+    return this._date;
+  }
+});
 
 Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this._date, locale: locale || this.locale });
