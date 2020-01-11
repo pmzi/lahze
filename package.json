@@ -1,0 +1,26 @@
+{
+  "name": "lahze",
+  "version": "0.0.1",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmzi/lahze.git"
+  },
+  "author": "Pouya MozaffarMagham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pmzi/lahze/issues"
+  },
+  "homepage": "https://github.com/pmzi/lahze#readme",
+  "source": "src/index.js",
+  "main": "dist/lahze.js",
+  "module": "dist/lahze.mjs",
+  "unpkg": "dist/lahze.umd.js",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "devDependencies": {
+    "microbundle": "^0.11.0"
+  }
+}
