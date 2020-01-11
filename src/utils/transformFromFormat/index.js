@@ -1,12 +1,6 @@
 import toGregorian from './toGregorian';
 
 export default function transformFromFormat(time, format, locale){
-  const result = fromFromat(time, format, locale);
-
-  return result;
-}
-
-function fromFromat(time, format, locale){
   const year = {
     string: [DATE_FORMATS.FULL_YEAR, DATE_FORMATS.SHORT_YEAR],
     regexp: ['\\d{4}', '\\d{2}'],
