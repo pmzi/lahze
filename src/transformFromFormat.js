@@ -1,4 +1,5 @@
-import toGregorian from './toGregorian';
+import toGregorian from './utils/toGregorian';
+import { DATE_FORMATS } from './constants';
 
 export default function transformFromFormat(time, format, locale){
   const year = {
@@ -12,6 +13,21 @@ export default function transformFromFormat(time, format, locale){
     property: 'month',
   }
   const day = {
+    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    regexp: ['\\d{2}', '\\d{1,2}'],
+    property: 'day',
+  };
+  const hour = {
+    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    regexp: ['\\d{2}', '\\d{1,2}'],
+    property: 'hour',
+  };
+  const minutes = {
+    string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
+    regexp: ['\\d{2}', '\\d{1,2}'],
+    property: 'day',
+  };
+  const seconds = {
     string: [DATE_FORMATS.FULL_DAY, DATE_FORMATS.SHORT_DAY],
     regexp: ['\\d{2}', '\\d{1,2}'],
     property: 'day',
