@@ -21,35 +21,39 @@ export default function Lahze(time, format, locale) {
 
   if(time){
     if(format){
-      this.date = transformFromFormat(time, format, locale);
+      this._date = transformFromFormat(time, format, locale);
     }else {
       if(time instanceof Date){
-        this.date = time;
+        this._date = time;
       }else {
-        this.date = new Date(time);
+        this._date = new Date(time);
       }
     }
   }else{
-    this.date = new Date();
+    this._date = new Date();
   }
 }
 
+Lahze.prototype.date = function() {
+  return this._date;
+}
+
 Lahze.prototype.format = function(format, locale) {
-  const parsed = parse({ date: this.date, locale: locale || this.locale });
+  const parsed = parse({ date: this._date, locale: locale || this.locale });
 
   format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
   format = format.replace(DATE_FORMATS.FULL_MONTH, garantee2Digits(parsed.M));
   format = format.replace(DATE_FORMATS.FULL_DAY, garantee2Digits(parsed.D));
-  format = format.replace(DATE_FORMATS.FULL_HOUR, garantee2Digits(this.date.getHours()));
-  format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this.date.getMinutes()));
-  format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this.date.getSeconds()));
+  format = format.replace(DATE_FORMATS.FULL_HOUR, garantee2Digits(this._date.getHours()));
+  format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this._date.getMinutes()));
+  format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this._date.getSeconds()));
 
   format = format.replace(DATE_FORMATS.SHORT_YEAR, parsed.Y.substr(2));
   format = format.replace(DATE_FORMATS.SHORT_MONTH, parsed.M);
   format = format.replace(DATE_FORMATS.SHORT_DAY, parsed.D);
-  format = format.replace(DATE_FORMATS.SHORT_HOUR, this.date.getHours());
-  format = format.replace(DATE_FORMATS.SHORT_MINUTES, this.date.getMinutes());
-  format = format.replace(DATE_FORMATS.SHORT_SECONDS, this.date.getSeconds());
+  format = format.replace(DATE_FORMATS.SHORT_HOUR, this._date.getHours());
+  format = format.replace(DATE_FORMATS.SHORT_MINUTES, this._date.getMinutes());
+  format = format.replace(DATE_FORMATS.SHORT_SECONDS, this._date.getSeconds());
 
   return format;
 }
