@@ -1,4 +1,4 @@
-import garantee2Digits from './utils/garantee2Digits';
+import garantee2Digits from './utils/guarantee2Digits';
 import transformFromFormat from './transformFromFormat';
 import parse from './utils/parse';
 import { DATE_FORMATS } from './constants';
