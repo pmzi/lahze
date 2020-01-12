@@ -2,6 +2,7 @@ import garantee2Digits from './utils/garantee2Digits';
 import transformFromFormat from './transformFromFormat';
 import parse from './utils/parse';
 import { DATE_FORMATS } from './constants';
+import toGregorian from './utils/toGregorian';
 
 export default function Lahze(time, format, locale) {
   this.locale = locale;
@@ -46,4 +47,70 @@ Lahze.prototype.format = function(format, locale) {
   format = format.replace(DATE_FORMATS.SHORT_SECONDS, this._date.getSeconds());
 
   return format;
+}
+
+Lahze.prototype.getFullYear = function(locale){
+  return this.format('YYYY', locale);
+}
+Lahze.prototype.getMonth = function(locale){
+  return this.format('M', locale);
+}
+Lahze.prototype.getDate = function(locale){
+  return this.format('D', locale);
+}
+Lahze.prototype.getHours = function(){
+  return this._date.getHours();
+}
+Lahze.prototype.getMinutes = function(){
+  return this._date.getMinutes();
+}
+Lahze.prototype.getSeconds = function(){
+  return this._date.getSeconds();
+}
+Lahze.prototype.getMilliseconds = function(){
+  return this._date.getMilliseconds();
+}
+
+Lahze.prototype.setFullYear = function(year, locale){
+  if((locale || this.locale) === 'en') this._date.setYear(year);
+  else {
+    console.log(this._date);
+    const [gYear, gMonth, gDay] = toGregorian(year, this.getMonth('fa'), this.getDay('fa'));
+    console.log(gYear, gMonth, gDay);
+    this._date = new Date(gYear, gMonth - 1, gDay, this._date.getHours(), this._date.getMinutes(), this._date.getSeconds(), this._date.getMilliseconds());
+    console.log(this._date);
+  }
+  return this;
+}
+Lahze.prototype.setMonth = function(month, locale){
+  if((locale || this.locale) === 'en') this._date.setMonth(month);
+  else {
+    const [gYear, gMonth, gDay] = toGregorian(this.getFullYear('fa'), month, this.getDay('fa'));
+    this._date = new Date(gYear, gMonth - 1, gDay, this._date.getHours(), this._date.getMinutes(), this._date.getSeconds(), this._date.getMilliseconds());
+  }
+  return this;
+}
+Lahze.prototype.setDay = function(day, locale){
+  if((locale || this.locale) === 'en') this._date.setDate(day);
+  else {
+    const [gYear, gMonth, gDay] = toGregorian(this.getFullYear('fa'), this.getMonth('fa'), day);
+    this._date = new Date(gYear, gMonth - 1, gDay, this._date.getHours(), this._date.getMinutes(), this._date.getSeconds(), this._date.getMilliseconds());
+  }
+  return this;
+}
+Lahze.prototype.setHours = function(hours){
+  this._date.setHours(hours);
+  return this;
+}
+Lahze.prototype.setMinutes = function(minutes){
+  this._date.setMinutes(minutes);
+  return this;
+}
+Lahze.prototype.setSeconds = function(seconds){
+  this._date.setSeconds(seconds);
+  return this;
+}
+Lahze.prototype.setMilliseconds = function(ms){
+  this._date.getMilliseconds(ms);
+  return this;
 }
