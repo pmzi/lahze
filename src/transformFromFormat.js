@@ -48,8 +48,12 @@ export default function transformFromFormat(time, format, locale){
     for(let i = 0;i<string.length;i++){
       if(string[i].test(format)){
         const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\]/g, '.+?').replace('P', `(${regexp[i]})`);
-        console.log(tempTime);
-        result[property] = new RegExp(tempTime).exec(time)[1];
+        const regRes = new RegExp(tempTime).exec(time);
+        if(regRes && regRes[1]){
+          result[property] = new RegExp(tempTime).exec(time)[1];
+        }else{
+          result[property] = 0;
+        }
       }
     }
   })
