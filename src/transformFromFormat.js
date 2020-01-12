@@ -1,4 +1,4 @@
-import toGregorian from './utils/toGregorian';
+import {toGregorian} from './utils/convertor';
 import { DATE_FORMATS } from './constants';
 
 export default function transformFromFormat(time, format, locale){
@@ -47,7 +47,7 @@ export default function transformFromFormat(time, format, locale){
   dates.forEach(({ string, regexp, property })=>{
     for(let i = 0;i<string.length;i++){
       if(string[i].test(format)){
-        const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\]/g, '.+?').replace('P', `(${regexp[i]})`);
+        const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\:]/g, '.+?').replace('P', `(${regexp[i]})`);
         const regRes = new RegExp(tempTime).exec(time);
         if(regRes && regRes[1]){
           result[property] = new RegExp(tempTime).exec(time)[1];

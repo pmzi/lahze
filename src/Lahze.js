@@ -2,7 +2,7 @@ import garantee2Digits from './utils/guarantee2Digits';
 import transformFromFormat from './transformFromFormat';
 import parse from './utils/parse';
 import { DATE_FORMATS } from './constants';
-import toGregorian from './utils/toGregorian';
+import { toGregorian } from './utils/convertor';
 
 export default function Lahze(time, format, locale) {
   this.locale = locale;
@@ -39,7 +39,7 @@ Object.defineProperty(Lahze.prototype, 'date', {
 
 Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this._date, locale: locale || this.locale });
-
+  console.log(parsed);
   format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
   format = format.replace(DATE_FORMATS.FULL_MONTH, garantee2Digits(parsed.M));
   format = format.replace(DATE_FORMATS.FULL_DAY, garantee2Digits(parsed.D));
@@ -47,7 +47,7 @@ Lahze.prototype.format = function(format, locale) {
   format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this._date.getMinutes()));
   format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this._date.getSeconds()));
 
-  format = format.replace(DATE_FORMATS.SHORT_YEAR, parsed.Y.substr(2));
+  format = format.replace(DATE_FORMATS.SHORT_YEAR, parsed.Y.toString().substr(2));
   format = format.replace(DATE_FORMATS.SHORT_MONTH, parsed.M);
   format = format.replace(DATE_FORMATS.SHORT_DAY, parsed.D);
   format = format.replace(DATE_FORMATS.SHORT_HOUR, this._date.getHours());
