@@ -58,13 +58,13 @@ Lahze.prototype.format = function(format, locale) {
 }
 
 Lahze.prototype.getFullYear = function(locale){
-  return this.format('YYYY', locale);
+  return Number(this.format('YYYY', locale));
 }
 Lahze.prototype.getMonth = function(locale){
-  return this.format('M', locale);
+  return Number(this.format('M', locale));
 }
 Lahze.prototype.getDate = function(locale){
-  return this.format('D', locale);
+  return Number(this.format('D', locale));
 }
 Lahze.prototype.getHours = function(){
   return this._date.getHours();
