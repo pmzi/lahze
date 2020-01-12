@@ -4,7 +4,7 @@ import { DATE_FORMATS } from './constants';
 export default function transformFromFormat(time, format, locale){
   const year = {
     string: [DATE_FORMATS.FULL_YEAR, DATE_FORMATS.SHORT_YEAR],
-    regexp: ['\\d{4}', '\\d{2}'],
+    regexp: ['\\d{4}', '\\d{1,2}'],
     property: 'year',
   };
   const month = {
@@ -47,7 +47,8 @@ export default function transformFromFormat(time, format, locale){
   dates.forEach(({ string, regexp, property })=>{
     for(let i = 0;i<string.length;i++){
       if(string[i].test(format)){
-        const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\]/g, '.').replace('P', `(${regexp[i]})`);
+        const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\]/g, '.+?').replace('P', `(${regexp[i]})`);
+        console.log(tempTime);
         result[property] = new RegExp(tempTime).exec(time)[1];
       }
     }
