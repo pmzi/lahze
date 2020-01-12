@@ -10,7 +10,15 @@ export default function Lahze(time, format, locale) {
   if(time){
     if(format){
       const { year, month, day, hour, minutes, seconds } = transformFromFormat(time, format, locale);
-      this._date = new Date(year, month - 1, day, hour, minutes, seconds);
+      const currentDate = new Date();
+      this._date = new Date(
+        year || currentDate.getFullYear(),
+        month - 1 === -1 ? currentDate.getMonth() : month - 1,
+        day || currentDate.getDate(),
+        hour || currentDate.getHours(),
+        minutes || currentDate.getMinutes(),
+        seconds || currentDate.getSeconds()
+      );
     }else {
       if(time instanceof Date){
         this._date = time;
