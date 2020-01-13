@@ -15,7 +15,7 @@ Lightweight package for formatting dates between jalali and gregorian. Supports 
 ```js
 import lahze from 'lahze';
 
-lahze('1398/10/10', 'YYYY/MM/DD', 'fa');
+lahze('1398/10/10', 'YYYY/MM/DD', 'fa').format('YYYY/MM/DD', 'en'); // 2019/12/31
 ```
 
 * Date can be on of the following items:
@@ -170,7 +170,7 @@ lahze('1398/10/10', 'YYYY/MM/DD', 'fa').setMonth(11, 'en').getMonth('fa'); // 8
 
 ### Display
 
-`lahze` can return date in the given format with the desirec locale:
+`lahze` can return date in the given format with the desired locale:
 
 ```js
 lahze('1398/10/10', 'YYYY/MM/DD', 'fa').format('YYYY/MM/DD', 'en'); // 2019/12/31
