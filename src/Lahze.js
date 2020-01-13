@@ -1,4 +1,4 @@
-import garantee2Digits from './utils/guarantee2Digits';
+import guarantee2Digits from './utils/guarantee2Digits';
 import transformFromFormat from './transformFromFormat';
 import parse from './utils/parse';
 import { DATE_FORMATS } from './constants';
@@ -40,11 +40,11 @@ Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this._date, locale: locale || this.locale });
 
   format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
-  format = format.replace(DATE_FORMATS.FULL_MONTH, garantee2Digits(parsed.M));
-  format = format.replace(DATE_FORMATS.FULL_DAY, garantee2Digits(parsed.D));
-  format = format.replace(DATE_FORMATS.FULL_HOUR, garantee2Digits(this._date.getHours()));
-  format = format.replace(DATE_FORMATS.FULL_MINUTES, garantee2Digits(this._date.getMinutes()));
-  format = format.replace(DATE_FORMATS.FULL_SECONDS, garantee2Digits(this._date.getSeconds()));
+  format = format.replace(DATE_FORMATS.FULL_MONTH, guarantee2Digits(parsed.M));
+  format = format.replace(DATE_FORMATS.FULL_DAY, guarantee2Digits(parsed.D));
+  format = format.replace(DATE_FORMATS.FULL_HOUR, guarantee2Digits(this._date.getHours()));
+  format = format.replace(DATE_FORMATS.FULL_MINUTES, guarantee2Digits(this._date.getMinutes()));
+  format = format.replace(DATE_FORMATS.FULL_SECONDS, guarantee2Digits(this._date.getSeconds()));
 
   format = format.replace(DATE_FORMATS.SHORT_YEAR, parsed.Y.toString().substr(2));
   format = format.replace(DATE_FORMATS.SHORT_MONTH, parsed.M);
