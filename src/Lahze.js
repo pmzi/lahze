@@ -87,7 +87,7 @@ Lahze.prototype.setFullYear = function(year, locale){
   return this;
 }
 Lahze.prototype.setMonth = function(month, locale){
-  if((locale || this.locale) === 'en') this._date.setMonth(month);
+  if((locale || this.locale) === 'en') this._date.setMonth(month - 1);
   else {
     const [gYear, gMonth, gDay] = toGregorian(this.getFullYear('fa'), month, this.getDay('fa'));
     this._date = new Date(gYear, gMonth - 1, gDay, this._date.getHours(), this._date.getMinutes(), this._date.getSeconds(), this._date.getMilliseconds());
@@ -115,6 +115,6 @@ Lahze.prototype.setSeconds = function(seconds){
   return this;
 }
 Lahze.prototype.setMilliseconds = function(ms){
-  this._date.getMilliseconds(ms);
+  this._date.setMilliseconds(ms);
   return this;
 }
