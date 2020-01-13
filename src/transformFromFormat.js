@@ -69,7 +69,7 @@ function formatter(format, time){
     dates.forEach(({ string, regexp, property })=>{
       for(let i = 0;i<string.length;i++){
         if(string[i].test(formatItem)){
-          const tempTime = formatItem.replace(string[i], 'P').replace(/[^P\-/\\:]+?/g, '.*?').replace('P', `(${regexp[i]})`);
+          const tempTime = formatItem.replace(string[i], 'P').replace(/[^P\-/\\:]+?/g, '.*?').replace(/[\-/\\:]/g, '.?').replace('P', `(${regexp[i]})`);
           const regRes = new RegExp(tempTime).exec(time);
           if(regRes && regRes[1]){
             time = time.toString().replace(regRes[1], '');
