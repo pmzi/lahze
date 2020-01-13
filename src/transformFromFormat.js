@@ -21,9 +21,9 @@ export default function transformFromFormat(time, format, locale){
   if(locale === 'fa') {
     const [gYear, gMonth, gDay] = toGregorian(result.year, result.month || 1, result.day || 1);
     // If any of them is 0, then year should remain 0
-    result.year = result.year == 0 ? gYear : result.year;
-    result.month = result.month == 0 ? gMonth : result.month;
-    result.day = result.day == 0 ? gDay : result.day;
+    result.year = result.year != 0 ? gYear : result.year;
+    result.month = result.month != 0 ? gMonth : result.month;
+    result.day = result.day != 0 ? gDay : result.day;
   }
 
   return result;
