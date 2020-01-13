@@ -2,6 +2,35 @@ import {toGregorian} from './utils/convertor';
 import { DATE_FORMATS } from './constants';
 
 export default function transformFromFormat(time, format, locale){
+  const result = {
+    year: 0,
+    month: 0,
+    day: 0,
+    hour: 0,
+    minutes: 0,
+    seconds: 0,
+  };
+
+  const preFormat = 'YYYY-MM-DD HH:mm:ss';
+
+  const preResult = formatter(preFormat, format);
+  const formatResult = formatter(format, time);
+
+  if(locale === 'fa') {
+    const [gYear, gMonth, gDay] = toGregorian(result.year, result.month, result.day);
+    result.year = gYear;
+    result.month = gMonth;
+    result.day = gDay;
+  }
+
+  return {
+    ...result,
+    ...preResult,
+    ...formatResult
+  };
+}
+
+function formatter(format, time){
   const year = {
     string: [DATE_FORMATS.FULL_YEAR, DATE_FORMATS.SHORT_YEAR],
     regexp: ['\\d{4}', '\\d{1,2}'],
@@ -35,17 +64,8 @@ export default function transformFromFormat(time, format, locale){
 
   const dates = [year, month, day, hour, minutes, seconds];
 
-  const result = {
-    year: 0,
-    month: 0,
-    day: 0,
-    hour: 0,
-    minutes: 0,
-    seconds: 0,
-  };
-
-  format = format.split(' ');
-
+  const result = {};
+  format = format.split(/[\s+T]/);
   format.forEach((formatItem)=>{
     dates.forEach(({ string, regexp, property })=>{
       for(let i = 0;i<string.length;i++){
@@ -62,13 +82,5 @@ export default function transformFromFormat(time, format, locale){
       }
     })
   })
-
-  if(locale === 'fa') {
-    const [gYear, gMonth, gDay] = toGregorian(result.year, result.month, result.day);
-    result.year = gYear;
-    result.month = gMonth;
-    result.day = gDay;
-  }
-
   return result;
 }
