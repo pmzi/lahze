@@ -44,18 +44,23 @@ export default function transformFromFormat(time, format, locale){
     seconds: 0,
   };
 
-  dates.forEach(({ string, regexp, property })=>{
-    for(let i = 0;i<string.length;i++){
-      if(string[i].test(format)){
-        const tempTime = format.replace(string[i], 'P').replace(/[^P\-/\\:]/g, '.+?').replace('P', `(${regexp[i]})`);
-        const regRes = new RegExp(tempTime).exec(time);
-        if(regRes && regRes[1]){
-          result[property] = new RegExp(tempTime).exec(time)[1];
-        }else{
-          result[property] = 0;
+  format = format.split(' ');
+
+  format.forEach((formatItem)=>{
+    dates.forEach(({ string, regexp, property })=>{
+      for(let i = 0;i<string.length;i++){
+        if(string[i].test(formatItem)){
+          const tempTime = formatItem.replace(string[i], 'P').replace(/[^P\-/\\:]+?/g, '.*?').replace('P', `(${regexp[i]})`);
+          const regRes = new RegExp(tempTime).exec(time);
+          if(regRes && regRes[1]){
+            time = time.replace(regRes[1], '');
+            result[property] = Number(regRes[1]);
+          }else{
+            result[property] = 0;
+          }
         }
       }
-    }
+    })
   })
 
   if(locale === 'fa') {

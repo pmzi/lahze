@@ -10,14 +10,13 @@ export default function Lahze(time, format, locale) {
   if(time){
     if(format){
       const { year, month, day, hour, minutes, seconds } = transformFromFormat(time, format, locale);
-      const currentDate = new Date();
       this._date = new Date(
-        year || currentDate.getFullYear(),
-        month - 1 === -1 ? currentDate.getMonth() : month - 1,
-        day || currentDate.getDate(),
-        hour || currentDate.getHours(),
-        minutes || currentDate.getMinutes(),
-        seconds || currentDate.getSeconds()
+        year,
+        !month || month - 1,
+        day,
+        hour,
+        minutes,
+        seconds
       );
     }else {
       if(time instanceof Date){
@@ -39,7 +38,7 @@ Object.defineProperty(Lahze.prototype, 'date', {
 
 Lahze.prototype.format = function(format, locale) {
   const parsed = parse({ date: this._date, locale: locale || this.locale });
-  console.log(parsed);
+
   format = format.replace(DATE_FORMATS.FULL_YEAR, parsed.Y);
   format = format.replace(DATE_FORMATS.FULL_MONTH, garantee2Digits(parsed.M));
   format = format.replace(DATE_FORMATS.FULL_DAY, garantee2Digits(parsed.D));
