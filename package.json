@@ -6,6 +6,16 @@
     "type": "git",
     "url": "git+https://github.com/pmzi/lahze.git"
   },
+  "keywords": [
+    "date",
+    "time",
+    "format",
+    "parse",
+    "persian",
+    "jalali",
+    "gregorian",
+    "convert"
+  ],
   "author": "Pouya MozaffarMagham",
   "license": "MIT",
   "bugs": {
