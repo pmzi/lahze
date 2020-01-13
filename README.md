@@ -10,7 +10,9 @@ Lightweight package for formatting dates between jalali and gregorian. Supports 
 
 ### Basic usage
 
-`lahze` accepts 3 arguments: date, format of the date and locale.
+`lahze` can be initialized using 3 arguments: date, format of the date and locale.
+
+After that `lahze` can manipulate and display date between locales easily.
 
 ```js
 import lahze from 'lahze';
