@@ -12,8 +12,8 @@ export default function Lahze(time, format, locale) {
       const { year, month, day, hour, minutes, seconds } = transformFromFormat(time, format, locale);
       this._date = new Date(
         year,
-        !month || month - 1,
-        day,
+        month == 0 ? month : month - 1,
+        day || 1,
         hour,
         minutes,
         seconds

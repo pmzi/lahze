@@ -2,6 +2,11 @@ import {toGregorian} from './utils/convertor';
 import { DATE_FORMATS } from './constants';
 
 export default function transformFromFormat(time, format, locale){
+  const preFormat = 'YYYY-MM-DD HH:mm:ss';
+
+  const preResult = formatter(preFormat, format);
+  const formatResult = formatter(format, time);
+
   const result = {
     year: 0,
     month: 0,
@@ -9,25 +14,19 @@ export default function transformFromFormat(time, format, locale){
     hour: 0,
     minutes: 0,
     seconds: 0,
-  };
-
-  const preFormat = 'YYYY-MM-DD HH:mm:ss';
-
-  const preResult = formatter(preFormat, format);
-  const formatResult = formatter(format, time);
-
-  if(locale === 'fa') {
-    const [gYear, gMonth, gDay] = toGregorian(result.year, result.month, result.day);
-    result.year = gYear;
-    result.month = gMonth;
-    result.day = gDay;
+    ...preResult,
+    ...formatResult,
   }
 
-  return {
-    ...result,
-    ...preResult,
-    ...formatResult
-  };
+  if(locale === 'fa') {
+    const [gYear, gMonth, gDay] = toGregorian(result.year, result.month || 1, result.day || 1);
+    // If any of them is 0, then year should remain 0
+    result.year = result.year == 0 ? gYear : result.year;
+    result.month = result.month == 0 ? gMonth : result.month;
+    result.day = result.day == 0 ? gDay : result.day;
+  }
+
+  return result;
 }
 
 function formatter(format, time){
@@ -73,7 +72,7 @@ function formatter(format, time){
           const tempTime = formatItem.replace(string[i], 'P').replace(/[^P\-/\\:]+?/g, '.*?').replace('P', `(${regexp[i]})`);
           const regRes = new RegExp(tempTime).exec(time);
           if(regRes && regRes[1]){
-            time = time.replace(regRes[1], '');
+            time = time.toString().replace(regRes[1], '');
             result[property] = Number(regRes[1]);
           }else{
             result[property] = 0;
