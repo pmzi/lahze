@@ -1,5 +1,4 @@
 # Lahze
-![npm](https://img.shields.io/npm/dw/lahze?label=Downloads)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/lahze)
 [![install size](https://packagephobia.now.sh/badge?p=hod)](https://packagephobia.now.sh/result?p=lahze)
 
